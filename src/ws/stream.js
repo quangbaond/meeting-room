@@ -6,14 +6,17 @@ const stream = (socket) => {
         socket.join(data.socketId);
 
         //Inform other members in the room of new user's arrival
+
         if (socket.adapter.rooms.has(data.room) === true) {
-            socket.to(data.room).emit('new user', { socketId: data.socketId });
+
+            socket.to(data.room).emit('new user', { socketId: data.socketId, isHost: data.isHost, user: data.user });
         }
     });
 
 
     socket.on('newUserStart', (data) => {
-        socket.to(data.to).emit('newUserStart', { sender: data.sender });
+
+        socket.to(data.to).emit('newUserStart', { sender: data.sender, isHost: data.isHost, user: data.user });
     });
 
 
